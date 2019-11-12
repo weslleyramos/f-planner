@@ -1,0 +1,98 @@
+﻿@model Litz.Services.Models.AccountInfo
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row" style="margin-top: 50px;">
+    <section class="col-md-5 text-center widget balance @(Model.IsNegative ? "bg-danger text-light" : "bg-success text-dark")">
+        <p>
+            Bom dia, Weslley Ramos
+        </p>
+
+        <h3 class="text-center visible-lg-inline">R$</h3> <h1 class="bold visible-lg-inline">  @Model.Balance</h1>
+    </section>
+
+    <section class="col-md-6 pull-right widget bg-default">
+        <button id="add-debt-transaction-btn" class="btn fast-action-btn" data-type="debt">
+            <span class="glyphicon glyphicon-minus text-danger"></span>
+            <p class="bold text-danger text-uppercase">Despesa</p>
+        </button>
+
+        <button id="add-income-transaction-btn" class="btn fast-action-btn" data-type="income">
+            <span class="glyphicon glyphicon-plus text-success"></span>
+            <p class="bold text-success text-uppercase">Receita</p>
+        </button>
+    </section>
+</div>
+
+<div class="row" style="margin-top: 50px;">
+    <section class="col-md-12 widget bg-default">
+        <div id="account-expenses-summary-chart"></div>
+    </section>
+</div>
+
+<div class="row" style="margin-top: 50px;">
+    <section class="col-md-12 widget bg-default">
+        <div id="account-expenses-yearly-summary-chart"></div>
+    </section>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        (function (app, $) {
+
+            var utils = new app.Utils();
+            var chartManager = new app.Charts();
+
+            $(document).ready(function () {
+                
+
+                chartManager.plotAccountSummaryPerGroupPieChart($('#account-expenses-summary-chart'), utils.getStartOfThisMonth(), utils.getEndOfThisMonth(), 'Top gastos no mês atual' );
+                chartManager.plotAccountSummaryPerGroupPieChart($('#account-expenses-yearly-summary-chart'), utils.getStartDayOfYear(), utils.getEndDayOfYear(), 'Top gastos no ano' );
+
+                $('#add-income-transaction-btn, #add-debt-transaction-btn').on('click', function (e) {
+                    e.preventDefault();
+                    var type = $(this).data('type');
+                    var dialogTitle = null;
+                    var dialogType = null;
+                    var queryParam = null;
+
+                    switch (type) {
+                        case 'debt':
+                            dialogTitle = 'Adicionar gasto';
+                            dialogType = BootstrapDialog.TYPE_DANGER;
+                            queryParam = 'D';
+
+                            break;
+                        case 'income':
+                            dialogTitle = 'Adicionar receita';
+                            dialogType = BootstrapDialog.TYPE_SUCCESS;
+                            queryParam = 'C';
+
+                            break;
+                    }
+
+                    utils.showSpinner();
+                    $.get('/Transaction/Create?type=' + queryParam, function (page) {
+                        utils.hideSpinner();
+
+                        BootstrapDialog.show({
+                            title: dialogTitle,
+                            message: $('<div></div>').html(page),
+                            type: dialogType,
+                            buttons: [{
+                                label: 'Fechar',
+                                action: function (dialog) {
+                                    window.location.href = window.location.href;
+                                }
+                            }]
+                        });
+                    });
+                });
+
+            });
+
+        }(AppLitz, jQuery));
+    </script>
+}

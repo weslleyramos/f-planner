@@ -1,0 +1,132 @@
+﻿@model Litz.Models.GoalIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="margin-top: 50px;">
+    <h2>Metas</h2>
+
+    <section class="date-navigation text-center">
+        <a class="filter" href="@Url.Action("Index", new {month = Model.PreviousMonth.ToString("yyyy-MM-dd")})">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            @Model.PreviousMonth.ToString("MMMM")
+        </a>
+        <h3 class="filter current-filter bold">@Model.CurrentPeriod.ToString("MMMM/yyyy")</h3>
+
+        <a class="filter" href="@Url.Action("Index", new { month = Model.NextMonth.ToString("yyyy-MM-dd") })">
+            @Model.NextMonth.ToString("MMMM")
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </a>
+    </section>
+</div>
+
+
+<div class="row chart-container" style="margin-top: 50px;">
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        (function (app, $) {
+            var utils = new app.Utils();
+
+            $(document).ready(function () {
+
+                $.getJSON('/Goal/GetChartsJson?month=' + utils.getParameterByName('month'),
+                    function (dataJson) {
+                        console.log(dataJson);
+
+                        if (dataJson.length > 0) {
+
+                            for (var i = 0; i < dataJson.length; i++) {
+                                var expectedExpenses = dataJson[i].ExpectedExpenses;
+                                var actualExpenses = dataJson[i].ActualExpenses;
+
+                                $('<div class="container" style="height: 200px; margin-top: 50px;"></div>').highcharts({
+                                    chart: {
+                                        type: 'bar'
+                                    },
+                                    title: {
+                                        text: ''
+                                    },
+                                    xAxis: {
+                                        categories: [dataJson[i].GoalName],
+                                        title: {
+                                            text: null
+                                        },
+                                        labels: {
+                                            style: {
+                                                'fontSize': '16px'
+                                            }
+                                        }
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        max: (expectedExpenses > actualExpenses ? expectedExpenses : actualExpenses),
+                                        title: {
+                                            text: 'gastos (em R$)'
+                                        },
+                                        labels: {
+                                            overflow: 'justify'
+                                        },
+                                        plotLines: [
+                                            {
+                                                color: '#5c90f9',
+                                                value: expectedExpenses,
+                                                width: 4,
+                                                zIndex: 5,
+                                                dashStyle: 'dash',
+                                                label: {
+                                                    text: 'Meta'
+                                                }
+                                            }
+                                        ],
+                                        gridLineWidth: 0
+                                    },
+                                    tooltip: {
+                                        valuePreffix: 'R$ '
+                                    },
+                                    plotOptions: {
+                                        bar: {
+                                            dataLabels: {
+                                                enabled: false
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        layout: 'vertical',
+                                        align: 'right',
+                                        verticalAlign: 'top',
+                                        x: -40,
+                                        y: 10,
+                                        floating: true,
+                                        borderWidth: 1,
+                                        backgroundColor: ((Highcharts.theme &&
+                                            Highcharts.theme.legendBackgroundColor) ||
+                                            '#FFFFFF'),
+                                        shadow: true
+                                    },
+                                    credits: {
+                                        enabled: false
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Gastos',
+                                            data: [actualExpenses],
+                                            color: dataJson[i].Color
+                                        }
+                                    ]
+                                }).appendTo('.chart-container');
+
+                            }
+                        } else {
+                            $('<div class="container"><h3>Nenhuma meta foi cadastrada para o período selecionado</h3></div>').appendTo('.chart-container');
+                        }
+                    });
+
+            });
+        }(AppLitz, jQuery));
+    </script>
+}

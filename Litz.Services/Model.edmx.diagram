@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="640781369afc4485b6132c154cc1cbc3" Name="Diagram1">
+        <EntityTypeShape EntityType="LitzModel.Group" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LitzModel.Transaction" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="LitzModel.User" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="LitzModel.FK_Group_User" ManuallyRouted="false" />
+        <AssociationConnector Association="LitzModel.FK_Transaction_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="LitzModel.FK_Transaction_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LitzModel.Goal" Width="1.5" PointX="8.25" PointY="1.25" />
+        <AssociationConnector Association="LitzModel.FK_Goal_Group" />
+        <AssociationConnector Association="LitzModel.FK_Goal_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,316 @@
+﻿@model Litz.Models.TransactionIndexViewModel
+
+@{
+    ViewBag.Title = "Extrato " + Model.CurrentPeriod.ToString("MMMM");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .timeline {
+        position: relative;
+    }
+
+        .timeline::before {
+            content: '';
+            background: #C5CAE9;
+            width: 5px;
+            height: 95%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+    .timeline-item {
+        width: 100%;
+        margin-bottom: 70px;
+    }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            float: right;
+            padding: 40px 30px 10px 30px;
+        }
+
+            .timeline-item:nth-child(even) .timeline-content .timeline-date {
+                right: auto;
+                left: 0;
+            }
+
+            .timeline-item:nth-child(even) .timeline-content::after {
+                content: '';
+                position: absolute;
+                border-style: solid;
+                width: 0;
+                height: 0;
+                top: 30px;
+                left: -15px;
+                border-width: 10px 15px 10px 0;
+                border-color: transparent #f5f5f5 transparent transparent;
+            }
+
+        .timeline-item::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+    .timeline-content {
+        position: relative;
+        width: 45%;
+        padding: 10px 30px;
+        border-radius: 4px;
+        background: #f5f5f5;
+        box-shadow: 0 20px 25px -15px rgba(0, 0, 0, 0.3);
+    }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            width: 0;
+            height: 0;
+            top: 30px;
+            right: -15px;
+            border-width: 10px 0 10px 15px;
+            border-color: transparent transparent transparent #f5f5f5;
+        }
+
+    .timeline-img {
+        width: 30px;
+        height: 30px;
+        background: #3F51B5;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        margin-top: 25px;
+        margin-left: -15px;
+    }
+
+    .timeline-action-btn {
+        color: #ccc;
+        font-size: 15px;
+        padding: 8px 5px;
+    }
+
+    .timeline-item-details-btn {
+        background: #3F51B5;
+        color: #FFFFFF;
+        padding: 8px 15px;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        display: inline-block;
+        border-radius: 2px;
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.6);
+    }
+
+        .timeline-item-details-btn:hover, .timeline-item-details-btn:active, .timeline-item-details-btn:focus {
+            background: #32408f;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+    .timeline-card {
+        padding: 0 !important;
+    }
+
+        .timeline-card p {
+            padding: 0 20px;
+        }
+
+        .timeline-card a {
+            margin-left: 20px;
+        }
+
+    .timeline-item:nth-child(2) .timeline-img-header {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.4)), url("http://www.buzznet.com/wp-content/uploads/sites/12/2012/05/msg-133762908892.jpg") center center no-repeat;
+        background-size: cover;
+    }
+
+    .timeline-item:nth-child(5) .timeline-img-header {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.4)), url("https://s2.favim.com/orig/37/girl-hayley-williams-inspiredbyhayleywilliams-music-paramore-Favim.com-299086.jpg") center center no-repeat;
+        background-size: cover;
+    }
+
+    .timeline-item:nth-child(6) .timeline-img-header {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.4)), url("http://a.bimg.dk/node-images/83/5/5083811-sharin-foo-har-stadig-the-voice.jpg") center center no-repeat;
+        background-size: cover;
+    }
+
+    .timeline-item:nth-child(8) .timeline-img-header {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.4)), url("https://i.pinimg.com/564x/53/40/2a/53402af02704f45b7d848b1afa503334.jpg") center center no-repeat;
+        background-size: cover;
+    }
+
+    .timeline-item:nth-child(10) .timeline-img-header {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.4)), url("http://www.toptenz.net/wp-content/uploads/2013/09/jane-margolis.jpg") center center no-repeat;
+        background-size: cover;
+    }
+
+    .timeline-item:nth-child(11) .timeline-img-header {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.4)), url("http://www.toptenz.net/wp-content/uploads/2013/09/jane-margolis.jpg") center center no-repeat;
+        background-size: cover;
+    }
+
+    .timeline-img-header {
+        height: 200px;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .timeline-img-header h2 {
+            color: #FFFFFF;
+            position: absolute;
+            bottom: 5px;
+            left: 20px;
+        }
+
+    blockquote {
+        margin-top: 30px;
+        color: #757575;
+        border-left-color: #3F51B5;
+        padding: 0 20px;
+    }
+
+    .timeline-date {
+        display: inline-block;
+        padding: 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .timeline::before {
+            left: 50px;
+        }
+
+        .timeline .timeline-img {
+            left: 50px;
+        }
+
+        .timeline .timeline-content {
+            max-width: 100%;
+            width: auto;
+            margin-left: 70px;
+        }
+
+        .timeline .timeline-item:nth-child(even) .timeline-content {
+            float: none;
+        }
+
+        .timeline .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            width: 0;
+            height: 0;
+            top: 30px;
+            left: -15px;
+            border-width: 10px 15px 10px 0;
+            border-color: transparent #f5f5f5 transparent transparent;
+        }
+    }
+
+    
+</style>
+
+<div class="row" style="margin-top: 50px;">
+    <h2>Extrato</h2>
+
+    <section class="date-navigation text-center">
+        <a class="filter" href="@Url.Action("Index", new {month = Model.PreviousMonth.ToString("yyyy-MM-dd")})">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            @Model.PreviousMonth.ToString("MMMM")
+        </a>
+        <h3 class="filter current-filter bold">@Model.CurrentPeriod.ToString("MMMM/yyyy")</h3>
+
+        <a class="filter" href="@Url.Action("Index", new { month = Model.NextMonth.ToString("yyyy-MM-dd") })">
+            @Model.NextMonth.ToString("MMMM")
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </a>
+    </section>
+</div>
+
+<div class="row" style="margin-top: 50px;">
+    @if (!Model.Transactions.Any())
+    {
+        <h3>Não houve lançamentos no mês selecionado</h3>
+    }
+    <section class="timeline">
+        <div class="container">
+            @foreach (var expenses in Model.Transactions.GroupBy(x => x.Date).ToList())
+            {
+                <div class="timeline-item">
+                    <div class="timeline-img"></div>
+                    <div class="timeline-content js--fadeInLeft">
+                        <div class="timeline-date @(expenses.Sum(y => y.Amount) > 0 ? "bg-success text-dark" : "bg-danger text-light")">@expenses.Key.ToString("M")</div>
+
+                        @foreach (var item in expenses)
+                        {
+                            <h2 class="bold">@item.Amount.ToString("C2")</h2>
+                            <p>@item.Description</p>
+                            <a class="timeline-action-btn" href="@Url.Action("Details", new {id = item.Id})"><span class="glyphicon glyphicon-search"></span></a>
+                            <a class="timeline-action-btn remove-transaction-btn" href="@Url.Action("Delete", new { id = item.Id})"><span class="glyphicon glyphicon-trash"></span></a>
+                        }
+
+                        <div class="message-area"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+
+@Html.AntiForgeryToken()
+
+@section scripts
+{
+    <script type="text/javascript">
+        (function (app, $) {
+
+            var utils = new app.Utils();
+            var chartManager = new app.Charts();
+
+            $(document).ready(function () {
+
+                chartManager.plotAccountSummaryPerGroupPieChart($('#account-expenses-summary-chart'));
+
+                $('.remove-transaction-btn').on('click', function (e) {
+                    e.preventDefault();
+                    var deleteUrl = $(this).prop('href');
+                    var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+                    var $container = $(this).closest('div').find('.message-area');
+
+                     
+                    BootstrapDialog.confirm({
+                        title: 'Remover item',
+                        message: 'Você tem certeza que deseja remover este item do seu extrato?',
+                        type: BootstrapDialog.TYPE_DEFAULT,
+                        closable: false,
+                        draggable: true,
+                        btnCancelLabel: 'Não',
+                        btnOKLabel: 'Quero remover',
+                        btnOKClass: 'btn-info',
+                        callback: function (result) {
+                            if (result) {
+                                utils.showSpinner();
+
+                                $.post(deleteUrl, { "__RequestVerificationToken": antiForgeryToken }, function (data) {
+                                    window.location.href = window.location.href;
+
+                                }).fail(function (data) {
+                                    utils.showAlert('Falha ao remover', data.responseJSON.Message, 'fail', $container);
+
+                                }).always(function() {
+                                    utils.hideSpinner();
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+
+        }(AppLitz, jQuery));
+    </script>
+}

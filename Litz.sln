@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litz", "Litz\Litz.csproj", "{EB344E02-0750-431A-8BE0-97F040AE63DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litz.Services", "Litz.Services\Litz.Services.csproj", "{D2AF395D-A003-42EE-95D9-CAAD4A60654E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litz.React", "Litz.React\Litz.React.csproj", "{F3186EAF-BA2A-4326-93BC-10BCAD33E5F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB344E02-0750-431A-8BE0-97F040AE63DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB344E02-0750-431A-8BE0-97F040AE63DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB344E02-0750-431A-8BE0-97F040AE63DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB344E02-0750-431A-8BE0-97F040AE63DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2AF395D-A003-42EE-95D9-CAAD4A60654E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2AF395D-A003-42EE-95D9-CAAD4A60654E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2AF395D-A003-42EE-95D9-CAAD4A60654E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2AF395D-A003-42EE-95D9-CAAD4A60654E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3186EAF-BA2A-4326-93BC-10BCAD33E5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3186EAF-BA2A-4326-93BC-10BCAD33E5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3186EAF-BA2A-4326-93BC-10BCAD33E5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3186EAF-BA2A-4326-93BC-10BCAD33E5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3AED9EB-C980-4D52-8DD5-BD7DF2A5ECD4}
+	EndGlobalSection
+EndGlobal

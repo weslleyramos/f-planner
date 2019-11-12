@@ -1,0 +1,62 @@
+﻿@model Litz.Services.Group
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="padding: 20px;">
+        @Html.HiddenFor(x => x.Id)
+
+        <div class="form-group">
+            <label>Nome</label>
+
+            @Html.TextBoxFor(model => model.Name, new {@class = "form-control"})
+        </div>
+
+        <div class="form-group">
+            <label>Cor</label>
+
+            @Html.TextBoxFor(model => model.Color, new {@class = "form-control"})
+        </div>
+
+        <div class="form-group">
+            <button id="submit-tag" class="btn btn-default">Salvar alterações</button>
+        </div>
+
+        <section class="row" id="edit-tag-response"></section>
+    </div>
+}
+
+<script type="text/javascript">
+
+    (function (app, $) {
+
+        var utils = new app.Utils();
+
+        $(document).ready(function () {
+            $('#Color').spectrum({
+                preferredFormat: "hex"
+            });
+
+            $('#submit-tag').on('click', function (e) {
+                e.preventDefault();
+
+                var $form = $(this).closest('form');
+
+                $.post($form.prop('action'), $form.serialize(), function (data) {
+                    if (!data.HasError) {
+                        utils.showAlert('Editado com sucesso', data.Message, 'success', $('#edit-tag-response'));
+                    }
+                    else {
+                        utils.showAlert('Falha ao editar', data.Message, 'fail', $('#edit-tag-response'));
+                    }
+
+                }).fail(function (data) {
+                    utils.showAlert('Falha ao editar', data.responseJSON.Message, 'fail', $('#edit-tag-response'));
+                });
+            });
+        });
+
+    }(AppLitz, jQuery));
+
+</script>

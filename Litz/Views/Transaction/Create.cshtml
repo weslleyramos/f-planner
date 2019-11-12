@@ -1,0 +1,97 @@
+﻿@using Litz.Services
+@model Litz.Services.Transaction
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="padding: 20px;">
+
+        @Html.HiddenFor(model => model.Type, new { @class = "form-control", value = ViewBag.TransactionType })
+
+        <div class="form-group">
+            <label>Descrição</label>
+
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-5">
+                <label>Valor</label>
+
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <div class="form-group col-md-5 col-md-push-1">
+                <label>Data</label>
+
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="visible-lg-block">Grupo</label>
+
+            <select name="GroupId" id="GroupId" class="form-control">
+                @foreach (var item in (List<Group>)ViewBag.GroupId)
+                {
+                    <option value="@item.Id" data-color="@item.Color">@item.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button id="submit-transaction" class="btn btn-default">Adicionar</button>
+        </div>
+
+        <section class="row" id="add-transaction-response"></section>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    (function (app, $) {
+
+        var utils = new app.Utils();
+
+        $(document).ready(function () {
+
+            function formatState(state) {
+
+                var color = $(state.element).data('color');
+
+                if (!state.id) { return state.text; }
+                var $state = $(
+                    '<div style="float: left; margin-right: 10px; width: 15px; height: 15px; background: ' + color + '"></div><span>' + state.text + '</span>'
+                );
+
+                return $state;
+            };
+
+            $('#GroupId').select2({
+                templateResult: formatState
+            });
+
+            $('#submit-transaction').on('click', function (e) {
+                e.preventDefault();
+
+                var $form = $(this).closest('form');
+
+                $.post($form.prop('action'), $form.serialize(), function (data) {
+                    if (!data.HasError) {
+                        utils.showAlert('Adicionado com sucesso', data.Message, 'success', $('#add-transaction-response'));
+                    }
+                    else {
+                        utils.showAlert('Falha ao cadastrar', data.Message, 'fail', $('#add-transaction-response'));
+                    }
+
+                }).fail(function (data) {
+                    utils.showAlert('Falha ao cadastrar', data.responseJSON.Message, 'fail', $('#add-transaction-response'));
+                });
+            });
+        });
+
+    }(AppLitz, jQuery));
+
+</script>
